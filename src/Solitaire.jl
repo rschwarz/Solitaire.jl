@@ -1,5 +1,6 @@
 module Solitaire
 
+
 const Card = Int8
 const A = Card(53) # large joker
 const B = Card(54) # small joker
@@ -30,5 +31,15 @@ function move_B(deck::Deck)
         return vcat(deck[1:pos-1], deck[pos+1:pos+2], B, deck[pos+3:end])
     end
 end
+
+"Triple cut around the positions of A,B (or B,A)."
+function cut_AB(deck::Deck)
+    a = findfirst(isequal(A), deck)
+    b = findfirst(isequal(B), deck)
+    fst, snd = extrema([a, b])
+    left, middle, right = deck[1:fst-1], deck[fst:snd], deck[snd+1:end]
+    return vcat(right, middle, left)
+end
+
 
 end
