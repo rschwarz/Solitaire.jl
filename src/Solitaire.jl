@@ -65,5 +65,24 @@ function value(deck::Deck)
     return val
 end
 
+struct DeckIterator
+    state::Deck
+end
+
+"Iterate over stream from key generating function."
+Base.iterate(deck::DeckIterator) = iterate(deck, deck.state)
+function Base.iterate(::DeckIterator, state::Deck)
+    # do the steps to advance the state
+    state = move_A(state)
+    state = move_B(state)
+    state = cut_AB(state)
+    state = cut_bottom(state)
+
+    # extract value
+    v = value(state)
+
+    # never stop iterating!
+    return v, state
+end
 
 end

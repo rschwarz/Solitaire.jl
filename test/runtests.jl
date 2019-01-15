@@ -42,3 +42,12 @@ using Solitaire
         @test Solitaire.value(Card[1, A, 32]) == 53  # no skipping yet
     end
 end
+
+@testset "key generator output" begin
+    # reference output
+    ref = [4, 49, 10, 53, 24, 8, 51, 44, 6, 4, 33, 20, 39, 19, 34, 42]
+    iter = Solitaire.DeckIterator(Solitaire.sorted_deck())
+    for t in zip(ref, iter)
+        @test t[1] == t[2]
+    end
+end
