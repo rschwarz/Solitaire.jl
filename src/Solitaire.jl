@@ -60,7 +60,7 @@ function value(deck::Deck)
     location = (top + 1)
     val = deck[location]
     if val in [A, B]
-        return nothing
+        val = 53
     end
     return val
 end
