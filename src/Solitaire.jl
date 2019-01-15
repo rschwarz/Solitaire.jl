@@ -146,5 +146,25 @@ function encrypt(cleartext::String, passphrase::String)
     return encrypt(cleartext, initialize(passphrase))
 end
 
+"Decrypt ciphertext with given deck."
+function decrypt(ciphertext::String, deck::Deck)
+    keygen = KeyGenerator(DeckIterator(deck))
+    ciphernum = [letter - 'A' + 1 for letter in uppercase(ciphertext)]
+    clearnum = Int[]
+    for t in zip(ciphernum, keygen)
+        c = t[1] - t[2] + 52
+        while c > 26
+            c -= 26
+        end
+        push!(clearnum, c)
+    end
+    return String('A' .+ (clearnum .- 1))
+end
+
+"Decrypt ciphertext with given passphrase."
+function decrypt(ciphertext::String, passphrase::String)
+    return decrypt(ciphertext, initialize(passphrase))
+end
+
 
 end

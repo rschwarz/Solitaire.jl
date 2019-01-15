@@ -81,3 +81,18 @@ end
     @test Solitaire.encrypt("AAAAAAAAAAAAAAAAAAAAAAAAA", "cryptonomicon") == "SUGSRSXSWQRMXOHIPBFPXARYQ"
     @test Solitaire.encrypt("SOLITAIRE", "cryptonomicon") == "KIRAKSFJA"
 end
+
+@testset "decryption with passphrase" begin
+    @test Solitaire.decrypt("EXKYIZSGEHUNTIQ", "") == "AAAAAAAAAAAAAAA"
+    @test Solitaire.decrypt("XYIUQBMHKKJBEGY", "f") == "AAAAAAAAAAAAAAA"
+    @test Solitaire.decrypt("TUJYMBERLGXNDIW", "fo") == "AAAAAAAAAAAAAAA"
+    @test Solitaire.decrypt("ITHZUJIWGRFARMW", "foo") == "AAAAAAAAAAAAAAA"
+    @test Solitaire.decrypt("XODALGSCULIQNSC", "a") == "AAAAAAAAAAAAAAA"
+    @test Solitaire.decrypt("OHGWMXXCAIMCIQP", "aa") == "AAAAAAAAAAAAAAA"
+    @test Solitaire.decrypt("DCSQYHBQZNGDRUT", "aaa") == "AAAAAAAAAAAAAAA"
+    @test Solitaire.decrypt("XQEEMOITLZVDSQS", "b") == "AAAAAAAAAAAAAAA"
+    @test Solitaire.decrypt("QNGRKQIHCLGWSCE", "bc") == "AAAAAAAAAAAAAAA"
+    @test Solitaire.decrypt("FMUBYBMAXHNQXCJ", "bcd") == "AAAAAAAAAAAAAAA"
+    @test Solitaire.decrypt("SUGSRSXSWQRMXOHIPBFPXARYQ", "cryptonomicon") == "AAAAAAAAAAAAAAAAAAAAAAAAA"
+    @test Solitaire.decrypt("KIRAKSFJA", "cryptonomicon") == "SOLITAIRE"
+end
