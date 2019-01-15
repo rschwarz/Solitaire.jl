@@ -65,13 +65,12 @@ function value(deck::Deck)
     return val
 end
 
+"Iterates over deck states."
 struct DeckIterator
     state::Deck
 end
 
-"Iterate over stream from key generating function."
-Base.iterate(deck::DeckIterator) = iterate(deck, deck.state)
-function Base.iterate(::DeckIterator, state::Deck)
+function Base.iterate(iter::DeckIterator, state::Deck=iter.state)
     # do the steps to advance the state
     state = move_A(state)
     state = move_B(state)
@@ -91,4 +90,18 @@ function cut_given(deck::Deck, value::Int)
     left, middle, right = deck[1:value], deck[value+1:end-1], deck[end:end]
     return vcat(middle, left, right)
 end
+"Iterates over key stream."
+struct KeyGenerator
+    iter::DeckIterator
+end
+
+function Base.iterate(keygen::KeyGenerator, iter::DeckIterator=keygen.iter)
+    value, state = iterate(iter)
+    while value in [A, B]
+        # skip invalid values (from jokers)
+        value, state = iterate(iter, state)
+    end
+    return value, DeckIterator(state)
+end
+
 end
