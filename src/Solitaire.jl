@@ -44,7 +44,11 @@ end
 "Extract value for key stream out of current state."
 function value(deck::Deck)
     top = deck[1]
-    val = deck[top + 1]
+    if top in [A, B]
+        top = 53 # either joker counts the same
+    end
+    location = (top + 1)
+    val = deck[location]
     if val in [A, B]
         return nothing
     end
