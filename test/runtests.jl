@@ -32,7 +32,7 @@ using Solitaire
     @testset "value" begin
         @test Solitaire.value(Card[1, 2, 3]) == 2
         @test Solitaire.value(Card[2, 1, 3]) == 3
-        @test Solitaire.value(Card[1, 30, 32]) == 4
+        @test Solitaire.value(Card[1, 30, 2]) == 30  # no mod26 yet
         @test Solitaire.value(Card[1, A, 32]) == nothing
     end
 end

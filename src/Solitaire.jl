@@ -52,7 +52,7 @@ function value(deck::Deck)
     if val in [A, B]
         return nothing
     end
-    return val % 26
+    return val
 end
 
 
