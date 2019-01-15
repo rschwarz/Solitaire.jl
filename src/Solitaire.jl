@@ -90,6 +90,28 @@ function cut_given(deck::Deck, value::Int)
     left, middle, right = deck[1:value], deck[value+1:end-1], deck[end:end]
     return vcat(middle, left, right)
 end
+
+"Generate deck from pass phrase"
+function initialize(passphrase::String)
+    # convert passphrase to numerical array
+    values = [letter - 'A' + 1 for letter in uppercase(passphrase)]
+    if !all(1 .≤ values .≤ 26)
+        error("Invalid passphrase: Only letters (A-Z) are supported.")
+    end
+
+    # start with sorted deck
+    deck = sorted_deck()
+
+    # now go through Solitaire steps, but interleave another cut
+    iter = DeckIterator(deck)
+    for value in values
+        _, deck = iterate(iter, deck)
+        deck = cut_given(deck, value)
+    end
+
+    return deck
+end
+
 "Iterates over key stream."
 struct KeyGenerator
     iter::DeckIterator
@@ -103,5 +125,26 @@ function Base.iterate(keygen::KeyGenerator, iter::DeckIterator=keygen.iter)
     end
     return value, DeckIterator(state)
 end
+
+"Encrypt cleartext with given deck."
+function encrypt(cleartext::String, deck::Deck)
+    keygen = KeyGenerator(DeckIterator(deck))
+    clearnum = [letter - 'A' + 1 for letter in uppercase(cleartext)]
+    ciphernum = Int[]
+    for t in zip(clearnum, keygen)
+        c = t[1] + t[2]
+        while c > 26
+            c -= 26
+        end
+        push!(ciphernum, c)
+    end
+    return String('A' .+ (ciphernum .- 1))
+end
+
+"Encrypt cleartext with given passphrase."
+function encrypt(cleartext::String, passphrase::String)
+    return encrypt(cleartext, initialize(passphrase))
+end
+
 
 end

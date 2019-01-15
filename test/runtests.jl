@@ -66,3 +66,18 @@ end
         @test t[1] == t[2]
     end
 end
+
+@testset "encryption with passphrase" begin
+    @test Solitaire.encrypt("AAAAAAAAAAAAAAA", "") == "EXKYIZSGEHUNTIQ"
+    @test Solitaire.encrypt("AAAAAAAAAAAAAAA", "f") == "XYIUQBMHKKJBEGY"
+    @test Solitaire.encrypt("AAAAAAAAAAAAAAA", "fo") == "TUJYMBERLGXNDIW"
+    @test Solitaire.encrypt("AAAAAAAAAAAAAAA", "foo") == "ITHZUJIWGRFARMW"
+    @test Solitaire.encrypt("AAAAAAAAAAAAAAA", "a") == "XODALGSCULIQNSC"
+    @test Solitaire.encrypt("AAAAAAAAAAAAAAA", "aa") == "OHGWMXXCAIMCIQP"
+    @test Solitaire.encrypt("AAAAAAAAAAAAAAA", "aaa") == "DCSQYHBQZNGDRUT"
+    @test Solitaire.encrypt("AAAAAAAAAAAAAAA", "b") == "XQEEMOITLZVDSQS"
+    @test Solitaire.encrypt("AAAAAAAAAAAAAAA", "bc") == "QNGRKQIHCLGWSCE"
+    @test Solitaire.encrypt("AAAAAAAAAAAAAAA", "bcd") == "FMUBYBMAXHNQXCJ"
+    @test Solitaire.encrypt("AAAAAAAAAAAAAAAAAAAAAAAAA", "cryptonomicon") == "SUGSRSXSWQRMXOHIPBFPXARYQ"
+    @test Solitaire.encrypt("SOLITAIRE", "cryptonomicon") == "KIRAKSFJA"
+end
