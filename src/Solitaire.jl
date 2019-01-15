@@ -41,5 +41,15 @@ function cut_AB(deck::Deck)
     return vcat(right, middle, left)
 end
 
+"Extract value for key stream out of current state."
+function value(deck::Deck)
+    top = deck[1]
+    val = deck[top + 1]
+    if val in [A, B]
+        return nothing
+    end
+    return val % 26
+end
+
 
 end

@@ -28,4 +28,11 @@ using Solitaire
         @test Solitaire.cut_AB(Card[1,2,A,3,4,B,5,6]) == Card[5,6,A,3,4,B,1,2]
         @test Solitaire.cut_AB(Card[1,2,B,3,4,A,5,6]) == Card[5,6,B,3,4,A,1,2]
     end
+
+    @testset "value" begin
+        @test Solitaire.value(Card[1, 2, 3]) == 2
+        @test Solitaire.value(Card[2, 1, 3]) == 3
+        @test Solitaire.value(Card[1, 30, 32]) == 4
+        @test Solitaire.value(Card[1, A, 32]) == nothing
+    end
 end
