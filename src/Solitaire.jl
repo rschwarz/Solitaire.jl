@@ -41,6 +41,16 @@ function cut_AB(deck::Deck)
     return vcat(right, middle, left)
 end
 
+"Cut after count to value of bottom card."
+function cut_bottom(deck::Deck)
+    bottom = deck[end]
+    if bottom in [A, B]
+        bottom = 53 # either joker counts the same
+    end
+    left, middle, right = deck[1:bottom], deck[bottom+1:end-1], deck[end:end]
+    return vcat(middle, left, right)
+end
+
 "Extract value for key stream out of current state."
 function value(deck::Deck)
     top = deck[1]

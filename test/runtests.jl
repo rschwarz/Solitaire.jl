@@ -29,6 +29,12 @@ using Solitaire
         @test Solitaire.cut_AB(Card[1,2,B,3,4,A,5,6]) == Card[5,6,B,3,4,A,1,2]
     end
 
+    @testset "cut_bottom" begin
+        @test Solitaire.cut_bottom(Card[4,3,2,1]) == Card[3,2,4,1]
+        @test Solitaire.cut_bottom(Card[1,4,3,2]) == Card[3,1,4,2]
+        @test Solitaire.cut_bottom(Card[4,1,2,3]) == Card[4,1,2,3]
+    end
+
     @testset "value" begin
         @test Solitaire.value(Card[1, 2, 3]) == 2
         @test Solitaire.value(Card[2, 1, 3]) == 3
