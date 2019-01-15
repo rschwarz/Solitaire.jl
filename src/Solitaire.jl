@@ -85,4 +85,10 @@ function Base.iterate(::DeckIterator, state::Deck)
     return v, state
 end
 
+"Cut deck according to given value"
+function cut_given(deck::Deck, value::Int)
+    @assert 1 ≤ value ≤ length(deck) - 1
+    left, middle, right = deck[1:value], deck[value+1:end-1], deck[end:end]
+    return vcat(middle, left, right)
+end
 end

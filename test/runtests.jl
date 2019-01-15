@@ -41,6 +41,12 @@ using Solitaire
         @test Solitaire.value(Card[1, 30, 2]) == 30  # no mod26 yet
         @test Solitaire.value(Card[1, A, 32]) == 53  # no skipping yet
     end
+
+    @testset "cut_given" begin
+        @test Solitaire.cut_given(Card[1, 2, 3], 1) == Card[2, 1, 3]
+        @test Solitaire.cut_given(Card[1, 2, 3], 2) == Card[1, 2, 3]
+        @test Solitaire.cut_given(Card[1, 2, 3, 4], 2) == Card[3, 1, 2, 4]
+    end
 end
 
 @testset "key generator output" begin
