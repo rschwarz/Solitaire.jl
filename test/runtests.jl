@@ -61,7 +61,7 @@ end
 @testset "raw generator output" begin
     # reference output
     ref = [4, 49, 10, 24, 8, 51, 44, 6, 4, 33, 20, 39, 19, 34, 42]
-    iter = Solitaire.KeyGenerator(Solitaire.DeckIterator(Solitaire.sorted_deck()))
+    iter = Solitaire.skip_jokers(Solitaire.DeckIterator(Solitaire.sorted_deck()))
     for t in zip(ref, iter)
         @test t[1] == t[2]
     end

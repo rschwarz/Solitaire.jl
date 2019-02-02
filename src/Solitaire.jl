@@ -112,23 +112,15 @@ function initialize(passphrase::String)
     return deck
 end
 
-"Iterates over key stream."
-struct KeyGenerator
-    iter::DeckIterator
-end
+"Card is not a joker."
+not_joker(card) = card != A && card !=B
 
-function Base.iterate(keygen::KeyGenerator, iter::DeckIterator=keygen.iter)
-    value, state = iterate(iter)
-    while value in [A, B]
-        # skip invalid values (from jokers)
-        value, state = iterate(iter, state)
-    end
-    return value, DeckIterator(state)
-end
+"Filter out jokers from key stream."
+skip_jokers(cards) = Iterators.filter(not_joker, cards)
 
 "Encrypt cleartext with given deck."
 function encrypt(cleartext::String, deck::Deck)
-    keygen = KeyGenerator(DeckIterator(deck))
+    keygen = skip_jokers(DeckIterator(deck))
     clearnum = [letter - 'A' + 1 for letter in uppercase(cleartext)]
     ciphernum = Int[]
     for t in zip(clearnum, keygen)
@@ -148,7 +140,7 @@ end
 
 "Decrypt ciphertext with given deck."
 function decrypt(ciphertext::String, deck::Deck)
-    keygen = KeyGenerator(DeckIterator(deck))
+    keygen = skip_jokers(DeckIterator(deck))
     ciphernum = [letter - 'A' + 1 for letter in uppercase(ciphertext)]
     clearnum = Int[]
     for t in zip(ciphernum, keygen)
