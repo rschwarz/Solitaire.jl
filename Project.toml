@@ -1,0 +1,6 @@
+name = "Solitaire"
+uuid = "d0ecc56c-dda8-4a53-9764-c3dda46824b7"
+version = "0.0.1"
+
+[compat]
+julia = "^1.0.0"
